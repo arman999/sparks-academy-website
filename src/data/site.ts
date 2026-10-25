@@ -40,7 +40,7 @@ export const hero = {
   primaryCta: "Join Sparks Today",
   secondaryCta: { label: "Explore our programs", href: "#programs" },
   facts: [
-    { icon: "users", text: "Grades 1–6" },
+    { icon: "users", text: "Grades K–6" },
     { icon: "calendar", text: "Fridays, 10 AM–3 PM" },
     { icon: "mapPin", text: "Riverside, CA" },
   ] satisfies { icon: IconName; text: string }[],
