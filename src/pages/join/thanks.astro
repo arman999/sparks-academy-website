@@ -1,0 +1,36 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Logo from "../../components/Logo.astro";
+import Icon from "../../components/Icon.astro";
+import SparkMark from "../../components/SparkMark.astro";
+import SparkScatter from "../../components/SparkScatter.astro";
+import { site } from "../../data/site";
+---
+
+<Layout title="Welcome to the Sparks family" noindex>
+  <header class="container-page py-5">
+    <a href="/" aria-label={`${site.name} home`} class="inline-block rounded-lg"><Logo /></a>
+  </header>
+
+  <main id="main" class="container-page pb-20">
+    <div class="relative mx-auto max-w-3xl overflow-hidden rounded-[2.5rem] bg-brand px-6 py-16 text-center text-paper md:px-16 md:py-20">
+      <SparkScatter class="absolute -top-6 -left-6 w-32 md:w-44" />
+      <SparkScatter class="absolute -right-6 -bottom-8 w-32 rotate-180 md:w-44" />
+      <SparkMark class="relative mx-auto w-24 md:w-28" color="var(--color-spark)" dotColor="var(--color-paper)" animated />
+      <h1 class="relative mt-8 text-4xl font-extrabold md:text-6xl">Welcome to the Sparks family!</h1>
+      <p class="relative mx-auto mt-6 max-w-xl text-lg text-paper/90 md:text-xl">
+        We’ve received your registration. One of our coordinators will reach out soon to welcome you and answer any questions. Keep an eye on your inbox for a copy of your registration.
+      </p>
+      <div class="relative mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href="/" class="btn bg-paper px-8 text-lg text-ink hover:bg-mist">
+          <Icon name="arrowLeft" size={20} />
+          Back to the homepage
+        </a>
+        <a href={site.phoneHref} class="btn px-6 text-lg text-paper hover:bg-paper/10">
+          <Icon name="phone" size={20} />
+          {site.phone}
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

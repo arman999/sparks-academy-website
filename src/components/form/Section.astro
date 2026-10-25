@@ -1,0 +1,25 @@
+---
+/** Numbered card that groups one part of the registration form. */
+interface Props {
+  id: string;
+  step: number;
+  title: string;
+  intro?: string;
+}
+const { id, step, title, intro } = Astro.props;
+---
+
+<section id={id} class="form-section scroll-mt-6 rounded-[1.75rem] bg-paper p-6 ring-1 ring-line md:p-9" aria-labelledby={`${id}-title`}>
+  <div class="flex items-start gap-4">
+    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand font-display text-lg font-extrabold text-paper" aria-hidden="true">
+      {step}
+    </span>
+    <div>
+      <h2 id={`${id}-title`} class="text-2xl font-extrabold md:text-3xl">{title}</h2>
+      {intro && <p class="mt-1.5 text-ink-soft">{intro}</p>}
+    </div>
+  </div>
+  <div class="mt-7 space-y-6">
+    <slot />
+  </div>
+</section>

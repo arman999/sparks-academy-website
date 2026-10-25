@@ -1,0 +1,28 @@
+---
+/**
+ * Sticky "Join Sparks Today" button.
+ * Phones: a full-width bar at the bottom, within thumb reach.
+ * Larger screens: a floating pill at the bottom-right.
+ * It appears once the visitor scrolls past the top section and steps aside
+ * when the big "Ready to spark" section is on screen.
+ */
+import Icon from "./Icon.astro";
+import { site } from "../data/site";
+---
+
+<div class="sticky-join" data-sticky-join data-hidden>
+  <a href={site.joinPath} class="btn btn-join w-full text-lg sm:w-auto sm:px-7">
+    Join Sparks Today
+    <Icon name="arrowRight" size={20} />
+  </a>
+</div>
+
+<noscript>
+  <style is:inline>
+    .sticky-join[data-hidden] { opacity: 1; transform: none; pointer-events: auto; }
+  </style>
+</noscript>
+
+<script>
+  import "../scripts/sticky-join.ts";
+</script>

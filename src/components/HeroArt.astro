@@ -1,0 +1,82 @@
+---
+/**
+ * Hero picture.
+ * Add a photo named hero.jpg (or .jpeg / .png / .webp) to src/assets/ and it
+ * replaces the illustration automatically, optimized and resized.
+ * Describe the photo for screen readers in `hero.photoAlt` in src/data/site.ts.
+ */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import SparkMark from "./SparkMark.astro";
+import SparkScatter from "./SparkScatter.astro";
+import { hero } from "../data/site";
+
+const found = import.meta.glob<{ default: ImageMetadata }>("../assets/hero.{jpg,jpeg,png,webp,avif}", { eager: true });
+const photo = Object.values(found)[0]?.default;
+
+// Where the floating subject labels sit around the picture (percent of the frame)
+const orbitSpots = [
+  { top: "30%", left: "-9%" },
+  { top: "16%", right: "-7%" },
+  { top: "56%", left: "-11%" },
+  { top: "62%", right: "-5%" },
+  { bottom: "7%", left: "4%" },
+  { bottom: "-3%", right: "18%" },
+  { top: "-3%", right: "22%" },
+];
+const chipStyles = ["bg-paper text-ink", "bg-spark text-ink", "bg-action text-ink", "bg-paper text-brand"];
+---
+
+<div class="relative mx-auto w-full max-w-[30rem] lg:max-w-none">
+  {/* Soft shapes behind the frame */}
+  <div class="absolute -top-8 -right-6 h-40 w-40 rounded-full bg-spark-tint md:h-56 md:w-56" aria-hidden="true"></div>
+  <div class="absolute -bottom-8 -left-8 h-32 w-44 rounded-[50%] bg-action/35 md:h-40 md:w-56" aria-hidden="true"></div>
+
+  {/* Flying sparks bursting from the corner of the photo */}
+  <SparkScatter class="absolute -top-14 -left-10 z-20 w-32 md:-top-16 md:-left-14 md:w-44" />
+
+  <div class="relative z-10 aspect-[4/5] overflow-hidden rounded-[2rem] bg-brand shadow-[0_30px_60px_-25px_rgb(17_85_204/0.55)] sm:aspect-square lg:aspect-[4/5]">
+    {photo ? (
+      <Image
+        src={photo}
+        alt={hero.photoAlt}
+        widths={[480, 720, 960, 1200]}
+        sizes="(min-width: 1024px) 34rem, 92vw"
+        loading="eager"
+        fetchpriority="high"
+        class="h-full w-full object-cover"
+      />
+    ) : (
+      <div class="relative h-full w-full" role="img" aria-label="Sparks Academy illustration">
+        <div
+          class="absolute inset-0 opacity-25"
+          style="background-image: radial-gradient(rgb(255 255 255 / 0.55) 1.5px, transparent 1.5px); background-size: 22px 22px;"
+          aria-hidden="true"
+        ></div>
+        <div class="absolute top-1/2 left-1/2 h-[68%] w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-dark/45" aria-hidden="true"></div>
+        <SparkMark
+          class="absolute top-1/2 left-1/2 w-[52%] -translate-x-[45%] -translate-y-[55%]"
+          color="var(--color-spark)"
+          dotColor="var(--color-paper)"
+          animated
+        />
+      </div>
+    )}
+  </div>
+
+  {/* Floating subject labels */}
+  <ul class="pointer-events-none absolute inset-0 z-20" aria-label="Subjects at Sparks">
+    {hero.orbit.map((label, i) => {
+      const spot = orbitSpots[i % orbitSpots.length];
+      const style = Object.entries(spot).map(([k, v]) => `${k}:${v}`).join(";");
+      return (
+        <li
+          class={`chip absolute animate-float shadow-lg ring-1 ring-ink/5 ${chipStyles[i % chipStyles.length]} ${i > 4 ? "hidden sm:inline-flex" : ""}`}
+          style={`${style};animation-delay:-${(i * 0.9).toFixed(1)}s`}
+        >
+          {label}
+        </li>
+      );
+    })}
+  </ul>
+</div>

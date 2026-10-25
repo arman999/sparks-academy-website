@@ -1,0 +1,45 @@
+---
+import HeroArt from "./HeroArt.astro";
+import Icon from "./Icon.astro";
+import { hero, site } from "../data/site";
+
+const at = hero.title.indexOf(hero.highlight);
+const before = at >= 0 ? hero.title.slice(0, at) : hero.title;
+const word = at >= 0 ? hero.highlight : "";
+const after = at >= 0 ? hero.title.slice(at + hero.highlight.length) : "";
+---
+
+<section class="relative overflow-x-clip pt-4 pb-20 md:pt-8 md:pb-28" data-hero>
+  <div class="container-page grid items-center gap-16 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+    <div>
+      <p class="eyebrow">{hero.eyebrow}</p>
+      <h1 class="mt-5 text-[2.6rem] font-extrabold sm:text-6xl lg:text-[4.1rem]">
+        {before}<span class="swash">{word}</span>{after}
+      </h1>
+      <p class="mt-6 max-w-xl text-lg text-ink-soft md:text-xl">{hero.subtitle}</p>
+
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a href={site.joinPath} class="btn btn-join px-8 text-lg" data-hero-cta>
+          {hero.primaryCta}
+          <Icon name="arrowRight" size={20} />
+        </a>
+        <a href={hero.secondaryCta.href} class="btn btn-outline px-8 text-lg">{hero.secondaryCta.label}</a>
+      </div>
+
+      <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-[0.95rem] font-bold text-ink-soft">
+        {hero.facts.map((fact) => (
+          <li class="flex items-center gap-2">
+            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-tint text-brand">
+              <Icon name={fact.icon} size={16} />
+            </span>
+            {fact.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="px-6 sm:px-10 lg:px-4">
+      <HeroArt />
+    </div>
+  </div>
+</section>

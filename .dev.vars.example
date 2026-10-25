@@ -1,0 +1,5 @@
+# Copy this file to .dev.vars for local testing. Never commit .dev.vars.
+# Without RESEND_API_KEY, registrations are still saved but no email is sent.
+RESEND_API_KEY=
+# Cloudflare's test secret: always passes. Use your real secret in production.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA

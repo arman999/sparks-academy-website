@@ -1,0 +1,58 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { nav, site } from "../data/site";
+---
+
+<header class="relative z-30">
+  <div class="container-page flex items-center justify-between gap-4 py-4 md:py-6">
+    <a href="/" aria-label={`${site.name} home`} class="shrink-0 rounded-lg">
+      <Logo />
+    </a>
+
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="rounded-full px-4 py-2 font-bold text-ink-soft transition-colors hover:bg-mist hover:text-ink"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={site.joinPath} class="btn btn-join hidden sm:inline-flex">Join Sparks Today</a>
+
+      {/* Mobile menu: works without JavaScript */}
+      <details class="mobile-menu relative lg:hidden" data-mobile-menu>
+        <summary
+          class="flex h-12 w-12 cursor-pointer list-none items-center justify-center rounded-full bg-mist text-ink transition-colors hover:bg-line [&::-webkit-details-marker]:hidden"
+          aria-label="Open menu"
+        >
+          <Icon name="menu" size={22} />
+        </summary>
+        <div class="absolute top-full right-0 mt-3 w-[min(18rem,calc(100vw-2.5rem))] rounded-3xl bg-paper p-3 shadow-2xl ring-1 ring-line">
+          <ul class="flex flex-col">
+            {nav.map((item) => (
+              <li>
+                <a href={item.href} class="block rounded-2xl px-4 py-3 text-lg font-bold hover:bg-mist">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a href={site.joinPath} class="btn btn-join mt-2 w-full">Join Sparks Today</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  import "../scripts/menu.ts";
+</script>

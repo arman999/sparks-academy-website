@@ -1,0 +1,28 @@
+---
+import SparkScatter from "./SparkScatter.astro";
+import Icon from "./Icon.astro";
+import { finalCta, site } from "../data/site";
+---
+
+<section class="py-20 md:py-28" data-final-cta>
+  <div class="container-page">
+    <div class="reveal relative overflow-hidden rounded-[2.5rem] bg-brand px-6 py-16 text-center text-paper md:px-16 md:py-24">
+      <SparkScatter class="absolute -bottom-6 -left-4 w-36 md:w-56" />
+      <SparkScatter class="absolute -top-8 -right-6 w-32 rotate-180 md:w-48" />
+      <div class="relative mx-auto max-w-2xl">
+        <h2 class="text-4xl font-extrabold md:text-6xl">{finalCta.title}</h2>
+        <p class="mx-auto mt-6 max-w-xl text-lg text-paper/90 md:text-xl">{finalCta.body}</p>
+        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a href={site.joinPath} class="btn btn-join px-9 text-lg">
+            {finalCta.cta}
+            <Icon name="arrowRight" size={20} />
+          </a>
+          <a href={site.phoneHref} class="btn px-6 text-lg text-paper hover:bg-paper/10">
+            <Icon name="phone" size={20} />
+            {site.phone}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

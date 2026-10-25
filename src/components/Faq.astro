@@ -1,0 +1,46 @@
+---
+import Icon from "./Icon.astro";
+import { faq, site } from "../data/site";
+
+/** Splits an answer so [JOIN] and [PHONE] become real links. */
+const parts = (text: string) => text.split(/(\[JOIN\]|\[PHONE\])/g).filter(Boolean);
+---
+
+<section id="faq" class="bg-mist py-20 md:py-28">
+  <div class="container-page grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+    <div class="reveal">
+      <p class="eyebrow">{faq.eyebrow}</p>
+      <h2 class="mt-4 text-4xl font-extrabold md:text-5xl">{faq.title}</h2>
+      <p class="mt-5 text-lg text-ink-soft">
+        Don’t see your question? Call us at{" "}
+        <a href={site.phoneHref} class="font-extrabold whitespace-nowrap text-brand underline-offset-4 hover:underline">{site.phone}</a>.
+      </p>
+    </div>
+
+    <div class="reveal space-y-3">
+      {faq.items.map((item, i) => (
+        <details class="faq-item group rounded-card bg-paper ring-1 ring-line open:ring-2 open:ring-brand/25" open={i === 0}>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-lg font-extrabold md:px-7 [&::-webkit-details-marker]:hidden">
+            <span>{item.q}</span>
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-mist text-brand transition-transform group-open:rotate-180">
+              <Icon name="chevronDown" size={20} />
+            </span>
+          </summary>
+          <div class="px-6 pb-6 text-lg text-ink-soft md:px-7">
+            <p>
+              {parts(item.a).map((part) =>
+                part === "[JOIN]" ? (
+                  <a href={site.joinPath} class="font-extrabold text-brand underline underline-offset-4">Join Sparks Today</a>
+                ) : part === "[PHONE]" ? (
+                  <a href={site.phoneHref} class="font-extrabold whitespace-nowrap text-brand underline underline-offset-4">{site.phone}</a>
+                ) : (
+                  part
+                ),
+              )}
+            </p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+import Logo from "./Logo.astro";
+import { nav, site } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink pt-16 pb-28 text-paper sm:pb-16">
+  <div class="container-page grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <Logo inverse />
+      <p class="mt-5 max-w-sm text-paper/75">
+        {site.tagline}. Project-based learning for 1st–6th graders in {site.location}.
+      </p>
+    </div>
+    <nav aria-label="Footer">
+      <h2 class="text-sm font-extrabold tracking-widest text-paper/60 uppercase">Explore</h2>
+      <ul class="mt-4 space-y-2">
+        {nav.map((item) => (
+          <li><a href={item.href} class="font-bold text-paper/90 hover:text-spark">{item.label}</a></li>
+        ))}
+        <li><a href={site.joinPath} class="font-bold text-action hover:underline">Join Sparks Today</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="text-sm font-extrabold tracking-widest text-paper/60 uppercase">Contact</h2>
+      <ul class="mt-4 space-y-2 font-bold text-paper/90">
+        <li><a href={site.phoneHref} class="hover:text-spark">{site.phone}</a></li>
+        <li>{site.location}</li>
+        <li>Fridays, 10 AM–3 PM</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container-page mt-12">
+    <p class="border-t border-paper/15 pt-6 text-sm text-paper/60">© {year} {site.name}. All rights reserved.</p>
+  </div>
+</footer>

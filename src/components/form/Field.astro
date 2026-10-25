@@ -1,0 +1,77 @@
+---
+/** Labeled form field with hint and error message (wired up by src/scripts/join-form.ts). */
+interface Props {
+  name: string;
+  label: string;
+  type?: "text" | "email" | "tel" | "date" | "select" | "textarea";
+  required?: boolean;
+  autocomplete?: string;
+  placeholder?: string;
+  hint?: string;
+  options?: string[];
+  inputmode?: "text" | "tel" | "email" | "numeric";
+  max?: string;
+  signature?: boolean;
+  class?: string;
+}
+
+const {
+  name,
+  label,
+  type = "text",
+  required = false,
+  autocomplete,
+  placeholder,
+  hint,
+  options = [],
+  inputmode,
+  max,
+  signature = false,
+  class: className = "",
+} = Astro.props;
+
+const id = `f-${name}`;
+const describedBy = [hint ? `${id}-hint` : "", `${id}-error`].filter(Boolean).join(" ");
+const base =
+  "field-input block w-full rounded-xl border-2 border-line bg-paper px-4 text-base text-ink transition-colors placeholder:text-ink-soft/55 hover:border-ink/25 focus:border-brand focus:outline-none";
+const inputClass = `${base} ${type === "textarea" ? "min-h-28 py-3" : "h-13"} ${signature ? "font-display text-lg italic" : ""}`;
+---
+
+<div class={`field ${className}`} data-field={name}>
+  <label for={id} class="mb-1.5 block font-bold text-ink">
+    {label}
+    {required ? <span class="text-brand" aria-hidden="true"> *</span> : <span class="font-semibold text-ink-soft"> (optional)</span>}
+  </label>
+  {hint && (
+    <p id={`${id}-hint`} class="-mt-0.5 mb-2 text-sm text-ink-soft">
+      {hint}
+    </p>
+  )}
+
+  {type === "select" ? (
+    <select id={id} name={name} required={required} aria-describedby={describedBy} class={`${inputClass} appearance-none bg-[length:1.25rem] bg-[right_1rem_center] bg-no-repeat pr-11`} style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231155cc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;)">
+      <option value="">Choose…</option>
+      {options.map((o) => (
+        <option value={o}>{o}</option>
+      ))}
+    </select>
+  ) : type === "textarea" ? (
+    <textarea id={id} name={name} required={required} placeholder={placeholder} aria-describedby={describedBy} class={inputClass} maxlength="2000"></textarea>
+  ) : (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      required={required}
+      autocomplete={autocomplete}
+      placeholder={placeholder}
+      inputmode={inputmode}
+      max={max}
+      maxlength={type === "date" ? undefined : "200"}
+      aria-describedby={describedBy}
+      class={inputClass}
+    />
+  )}
+
+  <p id={`${id}-error`} class="field-error mt-1.5 hidden text-sm font-bold text-[#b42318]" aria-live="polite"></p>
+</div>

@@ -1,0 +1,57 @@
+---
+/**
+ * Decorative burst of flying sparks, used around photos and section corners.
+ * Position it with the `class` prop (e.g. "absolute -top-6 -left-6 w-32").
+ */
+import { streakPath } from "../lib/spark";
+
+interface Props {
+  class?: string;
+  color?: string;
+  /** "corner" fans up and to the right; "fountain" sprays upward */
+  shape?: "corner" | "fountain";
+  animated?: boolean;
+}
+
+const { class: className = "", color = "var(--color-spark)", shape = "corner", animated = true } = Astro.props;
+
+const sparks =
+  shape === "corner"
+    ? [
+        { a: 88, g: 28, l: 34, r: 7 },
+        { a: 66, g: 52, l: 40, r: 8 },
+        { a: 44, g: 30, l: 46, r: 9 },
+        { a: 24, g: 60, l: 36, r: 7.5 },
+        { a: 4, g: 34, l: 30, r: 6.5 },
+      ].map((s) => ({ d: streakPath(20, 180, s.a, s.g, s.l, s.r) }))
+    : [
+        { a: 150, g: 30, l: 34, r: 6.5 },
+        { a: 122, g: 44, l: 42, r: 8 },
+        { a: 92, g: 34, l: 50, r: 9 },
+        { a: 62, g: 46, l: 40, r: 8 },
+        { a: 32, g: 28, l: 32, r: 6.5 },
+      ].map((s) => ({ d: streakPath(100, 190, s.a, s.g, s.l, s.r) }));
+
+const dots = shape === "corner" ? [[150, 40, 5], [176, 110, 4], [96, 22, 3.5]] : [[30, 70, 4], [170, 64, 4.5], [100, 22, 3.5]];
+---
+
+<svg viewBox="0 0 200 200" class={`pointer-events-none select-none ${className}`} aria-hidden="true">
+  {sparks.map((s, i) => (
+    <path
+      d={s.d}
+      fill={color}
+      class={animated ? "spark-fly" : undefined}
+      style={animated ? `--spark-delay:${(i * 0.09).toFixed(2)}s` : undefined}
+    />
+  ))}
+  {dots.map(([cx, cy, r], i) => (
+    <circle
+      cx={cx}
+      cy={cy}
+      r={r}
+      fill={color}
+      class={animated ? "spark-fly" : undefined}
+      style={animated ? `--spark-delay:${(0.45 + i * 0.1).toFixed(2)}s;--spark-origin:50% 50%` : undefined}
+    />
+  ))}
+</svg>

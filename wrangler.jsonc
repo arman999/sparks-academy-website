@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sparks-academy-website",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+
+  // Database where every registration is saved.
+  // 1. Run: npx wrangler d1 create sparks-registrations
+  // 2. Paste the "database_id" it prints below.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sparks-registrations",
+      "database_id": "PASTE-YOUR-D1-DATABASE-ID-HERE",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Public settings (not secret). Secrets (RESEND_API_KEY, TURNSTILE_SECRET_KEY)
+  // are added with `npx wrangler secret put NAME` or in the Cloudflare dashboard.
+  "vars": {
+    "NOTIFY_EMAIL": "agoshtas@gmail.com",
+    "FROM_EMAIL": "Sparks Academy <registrations@sparksacademyenrichment.com>",
+    "SEND_CONFIRMATION": "true"
+  }
+}

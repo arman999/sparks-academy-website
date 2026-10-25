@@ -1,0 +1,248 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Logo from "../../components/Logo.astro";
+import Icon from "../../components/Icon.astro";
+import SparkScatter from "../../components/SparkScatter.astro";
+import Field from "../../components/form/Field.astro";
+import Section from "../../components/form/Section.astro";
+import PolicyText from "../../components/form/PolicyText.astro";
+import { site } from "../../data/site";
+import { formIntro, GRADES, MAX_CHILDREN, photoQuestions, policies } from "../../data/registration";
+
+// Public key for Cloudflare Turnstile. Falls back to Cloudflare's always-pass test key.
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+const today = new Date().toISOString().slice(0, 10);
+const childNumbers = Array.from({ length: MAX_CHILDREN }, (_, i) => i + 1);
+const ordinal = ["First", "Second", "Third", "Fourth"];
+
+const steps = [
+  { id: "family", label: "Family" },
+  { id: "children", label: "Children" },
+  { id: "safety", label: "Pickup & safety" },
+  { id: "photos", label: "Photos & videos" },
+  { id: "agreements", label: "Agreements" },
+  { id: "submit", label: "Submit" },
+];
+---
+
+<Layout title="Join Sparks Today" description="Register your child for Sparks Academy, a project-based learning enrichment center for 1st–6th graders in Riverside, CA.">
+  <script slot="head" is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <header class="container-page flex items-center justify-between gap-4 py-5">
+    <a href="/" aria-label={`${site.name} home`} class="rounded-lg"><Logo /></a>
+    <a href="/" class="inline-flex items-center gap-2 rounded-full px-4 py-2 font-bold text-ink-soft hover:bg-mist hover:text-ink">
+      <Icon name="arrowLeft" size={18} />
+      <span>Back<span class="hidden sm:inline"> to the site</span></span>
+    </a>
+  </header>
+
+  <main id="main" class="pb-24">
+    {/* Intro */}
+    <div class="container-page">
+      <div class="relative overflow-hidden rounded-[2rem] bg-brand px-6 py-12 text-paper md:px-14 md:py-16">
+        <SparkScatter class="absolute -right-6 -bottom-8 w-36 md:w-52" />
+        <div class="relative max-w-2xl">
+          <p class="text-sm font-extrabold tracking-[0.14em] text-spark-tint uppercase">{formIntro.eyebrow}</p>
+          <h1 class="mt-4 text-4xl font-extrabold md:text-5xl">{formIntro.title}</h1>
+          <p class="mt-5 text-lg text-paper/90">{formIntro.body}</p>
+          <p class="mt-6 text-sm font-extrabold tracking-wide text-paper/75 uppercase">Have these handy</p>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {formIntro.needs.map((n) => (
+              <li class="chip bg-paper/15 text-paper">
+                <Icon name="check" size={16} class="text-action" />
+                {n}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-page mt-10 grid gap-10 lg:grid-cols-[14rem_1fr]">
+      {/* Step navigation (desktop) */}
+      <nav aria-label="Form sections" class="hidden lg:block">
+        <ol class="sticky top-8 space-y-1" data-steps>
+          {steps.map((s, i) => (
+            <li>
+              <a href={`#${s.id}`} data-step-link={s.id} class="step-link flex items-center gap-3 rounded-2xl px-3 py-2.5 font-bold text-ink-soft hover:bg-mist hover:text-ink">
+                <span class="step-dot flex h-8 w-8 items-center justify-center rounded-full bg-mist text-sm font-extrabold">{i + 1}</span>
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <form
+        method="post"
+        action="/api/register"
+        class="min-w-0 space-y-6"
+        novalidate
+        data-join-form
+      >
+        {/* Honeypot: hidden from people, bots fill it in */}
+        <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input id="f-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <p class="text-sm text-ink-soft">
+          Fields marked <span class="font-bold text-brand">*</span> are required.
+        </p>
+
+        {/* 1. Family */}
+        <Section id="family" step={1} title="Your family" intro="Tell us who to contact about your child.">
+          <fieldset>
+            <legend class="mb-3 font-display text-lg font-extrabold">Parent/Guardian 1</legend>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <Field name="p1_first" label="First name" required autocomplete="given-name" />
+              <Field name="p1_last" label="Last name" required autocomplete="family-name" />
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend class="mb-3 font-display text-lg font-extrabold">Parent/Guardian 2</legend>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <Field name="p2_first" label="First name" autocomplete="off" />
+              <Field name="p2_last" label="Last name" autocomplete="off" />
+            </div>
+          </fieldset>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <Field name="email" label="Email" type="email" required autocomplete="email" placeholder="example@example.com" inputmode="email" />
+            <Field name="phone" label="Phone number" type="tel" required autocomplete="tel" placeholder="(000) 000-0000" inputmode="tel" />
+          </div>
+          <Field name="city" label="City of residence" required autocomplete="address-level2" />
+        </Section>
+
+        {/* 2. Children */}
+        <Section id="children" step={2} title="Your children" intro="Add each child who will attend Sparks Academy.">
+          <div class="max-w-xs">
+            <Field name="child_count" label="How many children will be enrolling?" type="select" required options={childNumbers.map(String)} />
+          </div>
+          {childNumbers.map((n) => (
+            <fieldset class="child-block rounded-2xl border-2 border-dashed border-line p-5 md:p-6" data-child={n}>
+              <legend class="flex items-center gap-2 px-2 font-display text-lg font-extrabold">
+                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-spark text-sm text-ink">{n}</span>
+                {ordinal[n - 1]} child
+              </legend>
+              <div class="mt-2 grid gap-5 sm:grid-cols-2">
+                <Field name={`child${n}_name`} label="Child’s full name" required={n === 1} autocomplete="off" class="sm:col-span-2" />
+                <Field name={`child${n}_dob`} label="Date of birth" type="date" required={n === 1} max={today} />
+                <Field name={`child${n}_grade`} label="Grade" type="select" required={n === 1} options={GRADES} />
+                <Field
+                  name={`child${n}_allergies`}
+                  label="Allergies"
+                  type="textarea"
+                  required={n === 1}
+                  hint="Please list any allergies to anything. If none, write “None”."
+                  class="sm:col-span-2"
+                />
+              </div>
+            </fieldset>
+          ))}
+        </Section>
+
+        {/* 3. Pickup & safety */}
+        <Section id="safety" step={3} title="Pickup & safety" intro="Only the adults you list here may pick up your child.">
+          {[1, 2, 3].map((n) => (
+            <fieldset>
+              <legend class="mb-3 font-display text-lg font-extrabold">
+                Emergency contact #{n} <span class="font-sans text-base font-semibold text-ink-soft">(authorized to pick up your child)</span>
+              </legend>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <Field name={`ec${n}_name`} label="Name" required={n === 1} autocomplete="off" />
+                <Field name={`ec${n}_phone`} label="Phone number" type="tel" required={n === 1} autocomplete="off" placeholder="(000) 000-0000" inputmode="tel" />
+              </div>
+            </fieldset>
+          ))}
+          <Field
+            name="extra_pickup"
+            label="Any additional adults authorized to pick up your child"
+            type="textarea"
+            hint="Adults not on this list will not be able to pick up your child."
+          />
+          <fieldset>
+            <legend class="mb-1 font-display text-lg font-extrabold">Preferred nearby hospital</legend>
+            <p class="mb-4 text-sm text-ink-soft">
+              For a non-life-threatening emergency, such as a broken bone. In a life-threatening emergency, an ambulance will transport to the nearest hospital.
+            </p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <Field name="hospital_name" label="Hospital" required autocomplete="off" />
+              <Field name="hospital_city" label="City" required autocomplete="off" />
+            </div>
+          </fieldset>
+        </Section>
+
+        {/* 4. Photos */}
+        <Section id="photos" step={4} title="Photos & videos" intro="Let us know how we may use photos and videos that include your child.">
+          {photoQuestions.map((q) => (
+            <fieldset class="rounded-2xl bg-mist p-5 md:p-6" data-photo={q.id} data-short={q.short}>
+              <legend class="sr-only">{q.question}</legend>
+              <p class="font-bold text-ink" aria-hidden="true">
+                {q.question} <span class="text-brand">*</span>
+              </p>
+              <div class="mt-4 flex flex-wrap gap-3" data-field={q.id}>
+                <label class="choice">
+                  <input type="radio" name={q.id} value="yes" required class="peer sr-only" />
+                  <span class="choice-pill">Yes, I give permission</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name={q.id} value="no" class="peer sr-only" />
+                  <span class="choice-pill">No</span>
+                </label>
+                <p id={`f-${q.id}-error`} class="field-error hidden w-full text-sm font-bold text-[#b42318]" aria-live="polite"></p>
+              </div>
+              <div class="mt-5 max-w-md" data-photo-sig>
+                <Field name={`${q.id}_sig`} label="Type your full name as your e-signature" signature autocomplete="name" hint="Only needed if you answered yes." />
+              </div>
+            </fieldset>
+          ))}
+        </Section>
+
+        {/* 5. Agreements */}
+        <Section id="agreements" step={5} title="Policies & agreements" intro="Please read each one. Typing your full name below it counts as your electronic signature.">
+          {policies.map((policy) => (
+            <article class="rounded-2xl ring-1 ring-line p-5 md:p-6" aria-labelledby={`policy-${policy.id}`}>
+              <h3 id={`policy-${policy.id}`} class="text-xl font-extrabold md:text-2xl">{policy.title}</h3>
+              <div class="mt-4">
+                <PolicyText policy={policy} />
+              </div>
+              <div class="mt-5 max-w-md">
+                <Field name={`sig_${policy.id}`} label={policy.signLabel} required signature autocomplete="name" />
+              </div>
+            </article>
+          ))}
+        </Section>
+
+        {/* 6. Submit */}
+        <Section id="submit" step={6} title="Review & submit">
+          <div class="hidden rounded-2xl border-2 border-[#b42318]/30 bg-[#fef3f2] p-5" role="alert" tabindex="-1" data-error-summary>
+            <p class="flex items-center gap-2 font-extrabold text-[#b42318]">
+              <Icon name="alert" size={20} />
+              <span data-error-title>Please check a few things</span>
+            </p>
+            <ul class="mt-3 list-disc space-y-1 pl-6 text-[#7a271a]" data-error-list></ul>
+          </div>
+
+          <p class="text-ink-soft">
+            By submitting, you confirm that the information above is accurate and that each name you typed is your electronic signature. You’ll get an email copy for your records.
+          </p>
+          <div data-field="turnstile">
+            <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible"></div>
+            <p id="f-turnstile-error" class="field-error mt-1.5 hidden text-sm font-bold text-[#b42318]" aria-live="polite"></p>
+          </div>
+          <button type="submit" class="btn btn-join w-full px-10 text-lg sm:w-auto" data-submit>
+            <span data-submit-label>Submit registration</span>
+            <span class="hidden animate-spin" data-submit-spinner><Icon name="loader" size={20} /></span>
+          </button>
+          <p class="text-sm text-ink-soft">
+            Questions? Call us at <a href={site.phoneHref} class="font-bold text-brand hover:underline">{site.phone}</a>.
+          </p>
+        </Section>
+      </form>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import "../../scripts/join-form.ts";
+</script>

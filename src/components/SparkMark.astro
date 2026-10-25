@@ -1,0 +1,40 @@
+---
+/**
+ * The Sparks Academy mark: three sparks flying from a point.
+ * Placeholder until the final brand mark is designed. Swap the shapes in
+ * src/lib/spark.ts and every use of the mark updates.
+ */
+import { markStreaks, markDot } from "../lib/spark";
+
+interface Props {
+  class?: string;
+  /** Color of the sparks (any CSS color). Defaults to the current text color. */
+  color?: string;
+  /** Color of the origin dot. Defaults to the spark color. */
+  dotColor?: string;
+  /** Sparks fly in and flicker gently. */
+  animated?: boolean;
+  /** Accessible name. Leave empty when the mark is decorative. */
+  label?: string;
+}
+
+const { class: className = "", color = "currentColor", dotColor, animated = false, label } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 64 64"
+  class={className}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+>
+  {markStreaks.map((s) => (
+    <path
+      d={s.d}
+      fill={color}
+      class={animated ? "spark-fly" : undefined}
+      style={animated ? `--spark-delay:${s.delay}` : undefined}
+    />
+  ))}
+  <circle cx={markDot.cx} cy={markDot.cy} r={markDot.r} fill={dotColor ?? color} />
+</svg>

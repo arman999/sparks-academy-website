@@ -1,0 +1,43 @@
+---
+import SparkMark from "./SparkMark.astro";
+import { teams } from "../data/site";
+---
+
+<section id="programs" class="bg-mist py-20 md:py-28">
+  <div class="container-page">
+    <div class="reveal max-w-2xl">
+      <p class="eyebrow">{teams.eyebrow}</p>
+      <h2 class="mt-4 text-4xl font-extrabold md:text-5xl">{teams.title}</h2>
+      <p class="mt-5 text-lg text-ink-soft">{teams.intro}</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      {teams.items.map((team) => {
+        const isBrand = team.tone === "brand";
+        return (
+          <article
+            class={`reveal relative flex flex-col overflow-hidden rounded-[2rem] p-8 md:p-10 ${isBrand ? "bg-brand text-paper" : "bg-paper text-ink ring-1 ring-line"}`}
+          >
+            <SparkMark
+              class="absolute -top-3 -right-3 w-28 opacity-90 md:w-36"
+              color={isBrand ? "var(--color-spark)" : "var(--color-brand)"}
+              dotColor={isBrand ? "var(--color-paper)" : "var(--color-spark)"}
+            />
+            <span
+              class={`chip w-fit ${isBrand ? "bg-paper/15 text-paper" : "bg-spark text-ink"}`}
+            >
+              {team.grades}
+            </span>
+            <h3 class="mt-5 pr-20 text-3xl font-extrabold md:text-4xl">{team.name}</h3>
+            <p class={`mt-5 text-lg ${isBrand ? "text-paper/90" : "text-ink-soft"}`}>{team.body}</p>
+            <ul class="mt-8 flex flex-wrap gap-2" aria-label={`${team.name} subjects`}>
+              {team.tags.map((tag) => (
+                <li class={`chip ${isBrand ? "bg-brand-dark text-paper" : "bg-mist text-ink"}`}>{tag}</li>
+              ))}
+            </ul>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

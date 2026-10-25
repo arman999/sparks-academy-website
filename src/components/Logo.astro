@@ -1,0 +1,23 @@
+---
+import SparkMark from "./SparkMark.astro";
+
+interface Props {
+  /** Use on blue or dark backgrounds */
+  inverse?: boolean;
+  class?: string;
+}
+
+const { inverse = false, class: className = "" } = Astro.props;
+---
+
+<span class={`inline-flex items-center gap-2.5 ${className}`}>
+  <SparkMark
+    class="h-10 w-10 shrink-0"
+    color={inverse ? "var(--color-spark)" : "var(--color-brand)"}
+    dotColor={inverse ? "var(--color-paper)" : "var(--color-spark)"}
+  />
+  <span class="flex flex-col leading-none">
+    <span class={`font-display text-[1.65rem] font-extrabold tracking-tight ${inverse ? "text-paper" : "text-ink"}`}>Sparks</span>
+    <span class={`mt-0.5 text-[0.62rem] font-extrabold tracking-[0.32em] ${inverse ? "text-paper/80" : "text-brand"}`}>ACADEMY</span>
+  </span>
+</span>

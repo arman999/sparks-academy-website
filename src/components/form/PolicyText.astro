@@ -1,0 +1,29 @@
+---
+import type { Policy } from "../../data/registration";
+
+interface Props {
+  policy: Policy;
+}
+const { policy } = Astro.props;
+---
+
+<div
+  class={`policy-text space-y-3 rounded-2xl bg-mist p-5 text-[0.975rem] leading-relaxed text-ink-soft md:p-6 ${policy.long ? "max-h-[26rem] overflow-y-auto overscroll-contain" : ""}`}
+  tabindex={policy.long ? "0" : undefined}
+  role={policy.long ? "region" : undefined}
+  aria-label={policy.long ? `${policy.title} (scrollable)` : undefined}
+>
+  {policy.blocks.map((block) =>
+    "h" in block ? (
+      <h4 class="pt-2 font-display text-lg font-extrabold text-ink">{block.h}</h4>
+    ) : "ul" in block ? (
+      <ul class="list-disc space-y-2 pl-5 marker:text-brand">
+        {block.ul.map((li) => (
+          <li>{li}</li>
+        ))}
+      </ul>
+    ) : (
+      <p>{block.p}</p>
+    ),
+  )}
+</div>
