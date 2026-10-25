@@ -10,9 +10,9 @@ import type { IconName } from "./icons";
 
 export const site = {
   name: "Sparks Academy",
-  tagline: "Team Learning Enrichment Center",
+  tagline: "Team Learning Homeschool Enrichment Center",
   description:
-    "A joyful project-based learning enrichment center for 1st–6th graders in Riverside, CA, combining academic excellence with deep character building.",
+    "A joyful project-based learning enrichment center for K–6th graders in Riverside, CA, combining academic excellence with deep character building.",
   url: "https://sparksacademyenrichment.com",
   location: "Riverside, CA",
   phone: "559.904.0999",
@@ -31,12 +31,12 @@ export const nav = [
 
 /* ---------- Hero (top of the page) ---------- */
 export const hero = {
-  eyebrow: "Team Learning Enrichment Center · Riverside, CA",
+  eyebrow: "Team Learning Homeschool Enrichment Center · Riverside, CA",
   // The word in `highlight` gets the yellow swash. It must appear in `title`.
   title: "Sparking a joy of learning in every child’s heart.",
   highlight: "joy",
   subtitle:
-    "Sparks Academy is a project-based learning environment for 1st–6th graders, sparking academic and personal growth through collaboration, hands-on learning and joy.",
+    "Sparks Academy is a project-based learning environment for K–6th graders, sparking academic and personal growth through collaboration, hands-on learning and joy.",
   primaryCta: "Join Sparks Today",
   secondaryCta: { label: "Explore our programs", href: "#programs" },
   facts: [
@@ -101,7 +101,7 @@ export const teams = {
     },
     {
       name: "Little Sparks Team",
-      grades: "Grades 1–3",
+      grades: "Grades K–3",
       tone: "spark" as const,
       body: "In Little Sparks, students build leadership skills by helping lead whole-group lessons. They also take part in hands-on activities for writing, reading, science, cultural studies, personal development, entrepreneurship, and Spanish, and work as a team during project-based learning that involves multiple subjects.",
       tags: ["Reading", "Writing", "Science", "Spanish", "Cultural studies", "Leadership"],
@@ -112,7 +112,7 @@ export const teams = {
 /* ---------- Schedule, location & tuition ---------- */
 export const program = {
   eyebrow: "Schedule, location & tuition",
-  title: "Fridays are for sparking.",
+  title: "Fridays are for sparking JOY.",
   schedule: {
     day: "Fridays",
     time: "10:00 AM – 3:00 PM",
