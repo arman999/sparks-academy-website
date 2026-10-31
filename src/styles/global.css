@@ -274,3 +274,19 @@
 
 /* Page-to-page transition (homepage -> /join) */
 @view-transition { navigation: auto; }
+
+/* Hero photo slideshow: each photo shows for its turn, then fades into the next */
+.hero-slide {
+  animation-name: hero-fade;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes hero-fade {
+  0%, 30% { opacity: 1; }
+  36%, 94% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { animation: none; opacity: 1; }
+}

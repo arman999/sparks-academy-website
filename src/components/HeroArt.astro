@@ -11,8 +11,10 @@ import SparkMark from "./SparkMark.astro";
 import SparkScatter from "./SparkScatter.astro";
 import { hero } from "../data/site";
 
-const found = import.meta.glob<{ default: ImageMetadata }>("../assets/hero.{jpg,jpeg,png,webp,avif}", { eager: true });
-const photo = Object.values(found)[0]?.default;
+// Hero slideshow: name photos hero-1.jpg, hero-2.jpg, hero-3.jpg in src/assets/
+const found = import.meta.glob<{ default: ImageMetadata }>("../assets/hero-*.{jpg,jpeg,png,webp}", { eager: true });
+const photos = Object.keys(found).sort().map((path) => found[path].default);
+const SECONDS_EACH = 2;
 
 // Where the floating subject labels sit around the picture (percent of the frame)
 const orbitSpots = [
@@ -36,16 +38,19 @@ const chipStyles = ["bg-paper text-ink", "bg-spark text-ink", "bg-action text-in
   <SparkScatter class="absolute -top-14 -left-10 z-20 w-32 md:-top-16 md:-left-14 md:w-44" />
 
   <div class="relative z-10 aspect-[4/5] overflow-hidden rounded-[2rem] bg-brand shadow-[0_30px_60px_-25px_rgb(17_85_204/0.55)] sm:aspect-square lg:aspect-[4/5]">
-    {photo ? (
-      <Image
-        src={photo}
-        alt={hero.photoAlt}
-        widths={[480, 720, 960, 1200]}
-        sizes="(min-width: 1024px) 34rem, 92vw"
-        loading="eager"
-        fetchpriority="high"
-        class="h-full w-full object-cover"
-      />
+    {photos.length > 0 ? (
+      photos.map((photo, i) => (
+        <Image
+          src={photo}
+          alt={i === 0 ? hero.photoAlt : ""}
+          widths={[480, 720, 960, 1200]}
+          sizes="(min-width: 1024px) 34rem, 92vw"
+          loading="eager"
+          fetchpriority={i === 0 ? "high" : "auto"}
+          class={`absolute inset-0 h-full w-full object-cover ${photos.length > 1 ? "hero-slide" : ""}`}
+          style={`animation-duration:${photos.length * SECONDS_EACH}s;animation-delay:-${((photos.length - i) % photos.length) * SECONDS_EACH}s`}
+        />
+      ))
     ) : (
       <div class="relative h-full w-full" role="img" aria-label="Sparks Academy illustration">
         <div

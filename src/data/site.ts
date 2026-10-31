@@ -41,7 +41,7 @@ export const hero = {
   secondaryCta: { label: "Explore our programs", href: "#programs" },
   facts: [
     { icon: "users", text: "Grades K–6" },
-    { icon: "calendar", text: "Fridays, 10 AM–3 PM" },
+    { icon: "calendar", text: "Fridays & Mondays, 10 AM–3 PM" },
     { icon: "mapPin", text: "Riverside, CA" },
   ] satisfies { icon: IconName; text: string }[],
   // Describe the hero photo for screen readers (used once src/assets/hero.jpg exists)
@@ -59,6 +59,7 @@ export const cards: (
 )[] = [
   { type: "feature", icon: "mic", text: "Kids develop public speaking skills" },
   { type: "quote", text: "My son gained so much confidence last year", author: "Sparks Mom" },
+    { type: "quote", text: "My daughter feels so comfortable here, it's like a second home now.", author: "Sparks Mom" },
   { type: "feature", icon: "sprout", text: "Cultivating the innate talents and abilities of children" },
   { type: "quote", text: "My child came completely out of his shell!", author: "Sparks Mom" },
   {
@@ -73,7 +74,7 @@ export const vision = {
   eyebrow: "Sparks Academy vision",
   title: "Sparking academic and personal growth through collaboration, hands-on learning and joy.",
   vision:
-    "Our vision is to spark a joy of learning in every child’s heart, empowering students to solve problems and build skills collaboratively so they grow into compassionate, confident, and capable individuals who contribute positively to their families, communities, and the world.",
+    "Our vision is to spark the joy of learning in every child's heart. Empower children to be excellent team members and challenge themselves academically through an innovative, student-led educational experience. We are committed to fostering academic and personal growth through hands-on projects and interactive activities so they grow into confident individuals who contribute positively to their families, communities, and the world.",
   mission:
     "Our mission is to empower children to be excellent team members and challenge themselves academically through an innovative, student-led educational experience. We are committed to fostering academic and personal growth through hands-on projects and interactive activities.",
   subjects: [
@@ -112,9 +113,9 @@ export const teams = {
 /* ---------- Schedule, location & tuition ---------- */
 export const program = {
   eyebrow: "Schedule, location & tuition",
-  title: "Fridays are for sparking JOY.",
+  title: "Fridays and Mondays are for sparking JOY.",
   schedule: {
-    day: "Fridays",
+    day: "Fridays & Mondays",
     time: "10:00 AM – 3:00 PM",
     note: "Project-based learning",
   },
@@ -128,8 +129,9 @@ export const program = {
     city: "Riverside, CA",
     note: "Questions about the location? Call us anytime.",
   },
-  tuition: [
-    { label: "Friday program", price: "$190", unit: "per month, per child" },
+   tuition: [
+    { label: "1-day drop-off", price: "$180", unit: "per month, per child" },
+    { label: "2-day drop-off", price: "$350", unit: "per month, per child" },
     { label: "Registration fee", price: "$20", unit: "one time" },
     { label: "Materials fee", price: "$40", unit: "for the whole year (subsidized)" },
   ],
@@ -176,11 +178,11 @@ export const faq = {
     },
     {
       q: "How much is tuition and fees?",
-      a: "The one-day-a-week drop-off program on Fridays is $190 a month per child. The registration fee is $20, and the materials fee is subsidized: only $40 for the entire year.",
+      a: "Our drop-off program is $180 a month per child for one day a week, or $350 a month for two days (Mondays and Fridays). The registration fee is $20, and the materials fee is subsidized: only $40 for the entire year.",
     },
     {
       q: "Will I be able to watch my student in class?",
-      a: "Absolutely. While Sparks Academy is primarily a drop-off program, you are welcome to observe quietly. Space is limited, so we kindly ask you to minimize noise to avoid distracting the students. If you’d like to be nearby, there is also a room next to both classes where you can stay and work.",
+      a: "Sparks Academy is a drop-off program for both Little Sparks and Big Sparks. Parents are welcome to observe their children from the designated waiting room, but are not part of the classroom activities.",
     },
     {
       q: "Does my child bring lunch?",
