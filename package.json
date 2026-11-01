@@ -27,5 +27,8 @@
     "@astrojs/check": "^0.9.4",
     "typescript": "^5.9.0",
     "wrangler": "^4.0.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
