@@ -25,6 +25,8 @@ const orbitSpots = [
   { bottom: "7%", left: "4%" },
   { bottom: "-3%", right: "18%" },
   { top: "-3%", right: "22%" },
+  { top: "40%", right: "-8%" },
+   { top: "76%", left: "-10%" },
 ];
 const chipStyles = ["bg-paper text-ink", "bg-spark text-ink", "bg-action text-ink", "bg-paper text-brand"];
 ---
@@ -76,7 +78,7 @@ const chipStyles = ["bg-paper text-ink", "bg-spark text-ink", "bg-action text-in
       const style = Object.entries(spot).map(([k, v]) => `${k}:${v}`).join(";");
       return (
         <li
-          class={`chip absolute animate-float shadow-lg ring-1 ring-ink/5 ${chipStyles[i % chipStyles.length]} ${i > 4 ? "hidden sm:inline-flex" : ""}`}
+                    class={`chip absolute animate-float shadow-lg ring-1 ring-ink/5 ${chipStyles[i % chipStyles.length]}`}
           style={`${style};animation-delay:-${(i * 0.9).toFixed(1)}s`}
         >
           {label}

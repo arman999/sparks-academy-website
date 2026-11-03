@@ -33,8 +33,9 @@ export const nav = [
 export const hero = {
   eyebrow: "Team Learning Homeschool Enrichment Center · Riverside, CA",
   // The word in `highlight` gets the yellow swash. It must appear in `title`.
-  title: "Sparking a joy of learning in every child’s heart.",
+    title: "Sparking joy in every child’s heart.",
   highlight: "joy",
+  rotatingWords: ["joy", "confidence", "curiosity", "excellence", "teamwork", "kindness", "wonder"],
   subtitle:
     "Sparks Academy is a project-based learning environment for K–6th graders, sparking academic and personal growth through collaboration, hands-on learning and joy.",
   primaryCta: "Join Sparks Today",
@@ -47,7 +48,7 @@ export const hero = {
   // Describe the hero photo for screen readers (used once src/assets/hero.jpg exists)
   photoAlt: "Sparks Academy students working together on a hands-on project",
   // Floating labels around the hero picture
-  orbit: ["Public speaking", "Science", "Entrepreneurship", "Character", "Math", "Cultural studies", "Teamwork"],
+  orbit: ["Public speaking", "Science", "Entrepreneurship", "Character", "Math", "Cultural studies", "Teamwork", "ELA", "Theater"],
 };
 
 /* ---------- Scrolling cards (loop forever, pause on hover) ---------- */
@@ -97,7 +98,7 @@ export const teams = {
       name: "Big Sparks Team",
       grades: "Grades 4–6",
       tone: "brand" as const,
-      body: "Students engage in project-based learning for language arts, cultural studies, science, math, character building (virtues) and cultivating an entrepreneur-like mindset. The projects and their layered learning are led by the students as much as possible, with the guidance of parents. Students have innate abilities and talents; our unique project-based learning approach gives our kids opportunities to rise to their potential as leaders and collaborators.",
+      body: "Students engage in project-based learning for language arts, cultural studies, science, math, character building (virtues) and cultivating an entrepreneur-like mindset. The projects and their layered learning are led by the students as much as possible, with the guidance of Sparks teachers. Students have innate abilities and talents; our unique project-based learning approach gives our kids opportunities to rise to their potential as leaders and collaborators.",
       tags: ["Language arts", "Cultural studies", "Science", "Math", "Virtues", "Entrepreneurship"],
     },
     {

@@ -290,3 +290,8 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-slide { animation: none; opacity: 1; }
 }
+/* Hero headline: as big as possible while staying on exactly two lines */
+.hero-title {
+  font-size: clamp(1.9rem, 9.9cqi, 5rem);
+  line-height: 1.05;
+}
